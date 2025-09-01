@@ -1,0 +1,11 @@
+{
+  "routes": [
+    {
+      "route": "/signin",
+      "rewrite": "/index.html",
+      "allowedRoles": [
+        "anonymous"
+      ]
+    }
+  ]
+}
