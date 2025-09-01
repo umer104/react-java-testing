@@ -13,23 +13,27 @@ jobs:
       contents: read
 
     steps:
+      # Checkout source code
       - uses: actions/checkout@v4
 
-      - name: Set up Java version
+      # Setup Java (Maven build uses JDK 17)
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'microsoft'
 
+      # Build JAR inside the server directory
       - name: Build with Maven
-        working-directory: ./server
         run: mvn clean package -DskipTests
+        working-directory: server
 
+      # Upload the built JAR as an artifact
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: ./server/target/*.jar
+          path: server/target/*.jar
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,22 +43,25 @@ jobs:
       contents: read
 
     steps:
+      # Download the JAR artifact from build job
       - name: Download JAR artifact
         uses: actions/download-artifact@v4
         with:
           name: java-app
-          path: ./server/target   # ✅ no wildcard
+          path: server/target
 
+      # Login to Azure with OIDC (no publish profile needed)
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.CLIENTID }}
-          tenant-id: ${{ secrets.TENANTID }}
-          subscription-id: ${{ secrets.SUBSCRIPTIONID }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      # Deploy the JAR to Azure Web App
       - name: Deploy JAR to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'java104'
+          app-name: 'java104'          # 👈 your Azure Web App name
           slot-name: 'Production'
-          package: ./server/target/*.jar   # ✅ deploy the jar
+          package: server/target/*.jar # 👈 deploy the JAR
