@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://nice-pebble-0b9f9311e.1.azurestaticapps.net")
 public class JavaSampleAppApplication {
 
 
