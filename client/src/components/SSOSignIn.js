@@ -12,7 +12,7 @@ const SSOSignIn = () => {
                 tenantId,
                 redirectUrl: 'https://nice-pebble-0b9f9311e.1.azurestaticapps.net/authorization-code/callback',
             }).toString();
-            fetch(`http://localhost:8080/start_sso?${queryParams}`, {
+            fetch(`https://java104-amb4g2gpeneefmae.canadacentral-01.azurewebsites.net/start_sso?${queryParams}`, {
                 headers: {
                     Accept: 'application/json',
                 }

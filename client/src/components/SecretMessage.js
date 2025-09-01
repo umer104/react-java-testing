@@ -12,7 +12,7 @@ const SecretMessage = () => {
         const sessionToken = getSessionToken();
 
         // example fetch call with authentication header
-        fetch('http://localhost:8080/get_secret_message', {
+        fetch('https://java104-amb4g2gpeneefmae.canadacentral-01.azurewebsites.net/get_secret_message', {
             headers: {
             Accept: 'application/json',
             Authorization: 'Bearer ' + sessionToken,

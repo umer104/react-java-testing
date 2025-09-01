@@ -22,7 +22,7 @@ const AuthorizationCodeCallback = () => {
       
       if (code) {
 
-        fetch(`http://localhost:8080/authorization-code/callback`, {
+        fetch(`https://java104-amb4g2gpeneefmae.canadacentral-01.azurewebsites.net/authorization-code/callback`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
