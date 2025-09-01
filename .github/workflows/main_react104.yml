@@ -58,6 +58,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'react104'
-          slot-name: 'Production'<
+          slot-name: 'Production'
           package: ./client/build
 
