@@ -1,0 +1,43 @@
+name: API - Build
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "server/**"
+      - ".github/workflows/api-build.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+          cache: "maven"
+
+      - name: Build WAR
+        run: mvn -B -DskipTests package
+
+      - name: Copy WAR
+        run: |
+          WAR=$(ls target/*.war | head -n1)
+          cp "$WAR" ../api.war
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-build
+          path: api.war
+          retention-days: 7
